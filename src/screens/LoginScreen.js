@@ -12,10 +12,14 @@ import {
   Dimensions,
   Animated,
   ScrollView,
+  Alert,
+  ActivityIndicator,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { AuthContext } from "../navigation/RootNavigator";
+import { API_URL } from "@env";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { height, width } = Dimensions.get("window");
 
@@ -24,6 +28,8 @@ export default function LoginScreen() {
   const [focused, setFocused] = useState(false);
   const [step, setStep] = useState(1);
   const { setIsLoggedIn } = useContext(AuthContext);
+  const [loadingOTP, setLoadingOTP] = useState(false);
+  const [loadingVerify, setLoadingVerify] = useState(false);
 
   const scaleAnim = useRef(new Animated.Value(1)).current;
   const slideAnim = useRef(new Animated.Value(0)).current;
@@ -46,30 +52,75 @@ export default function LoginScreen() {
     }).start();
   };
 
-  const goToOTP = () => {
-    Animated.timing(slideAnim, {
-      toValue: -width,
-      duration: 250,
-      useNativeDriver: true,
-    }).start(() => {
-      setStep(2);
-      slideAnim.setValue(width);
-      Animated.timing(slideAnim, {
-        toValue: 0,
-        duration: 250,
-        useNativeDriver: true,
-      }).start();
-    });
+  const goToOTP = async () => {
+    setLoadingOTP(true);
+    try {
+      const res = await fetch(`${API_URL}customer_App/signInCustomer`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mobile_number: phone }),
+      });
+
+      const data = await res.json();
+      if (data.status) {
+        Animated.timing(slideAnim, {
+          toValue: -width,
+          duration: 250,
+          useNativeDriver: true,
+        }).start(() => {
+          setStep(2);
+          slideAnim.setValue(width);
+          Animated.timing(slideAnim, {
+            toValue: 0,
+            duration: 250,
+            useNativeDriver: true,
+          }).start();
+        });
+      } else {
+        Alert.alert("Error", data.message || "Failed to send OTP");
+      }
+    } catch (err) {
+      console.log(err);
+      Alert.alert("Error", "Something went wrong while sending OTP");
+    } finally {
+      setLoadingOTP(false);
+    }
   };
 
-  const handleVerify = () => {
+  const handleVerify = async () => {
     const fullOtp = otp.join("");
-
     if (fullOtp.length !== 6) {
-      alert("Please enter valid OTP");
+      Alert.alert("Invalid OTP", "Please enter a 6-digit OTP");
       return;
     }
-    setIsLoggedIn(true);
+    setLoadingVerify(true);
+
+    try {
+      const res = await fetch(`${API_URL}customer_App/verifySignInCustomer`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mobile_number: phone, otp: fullOtp }),
+      });
+
+      const data = await res.json();
+
+      if (data.status) {
+        await AsyncStorage.setItem("token", data.data.token);
+        await AsyncStorage.setItem(
+          "customer",
+          JSON.stringify(data.data.customer),
+        );
+
+        setIsLoggedIn(true);
+      } else {
+        Alert.alert("Error", data.message || "OTP verification failed");
+      }
+    } catch (err) {
+      console.log(err);
+      Alert.alert("Error", "Something went wrong while verifying OTP");
+    } finally {
+      setLoadingVerify(false);
+    }
   };
 
   return (
@@ -116,7 +167,6 @@ export default function LoginScreen() {
             >
               {step === 1 ? (
                 <>
-
                   <Text style={styles.welcome}>Welcome Back 👋</Text>
 
                   <Text style={styles.cardTitle}>Sign In</Text>
@@ -152,7 +202,7 @@ export default function LoginScreen() {
                   </View>
 
                   <TouchableOpacity
-                    disabled={!isValid}
+                    disabled={!isValid || loadingOTP}
                     onPressIn={pressIn}
                     onPressOut={pressOut}
                     onPress={goToOTP}
@@ -161,12 +211,22 @@ export default function LoginScreen() {
                     <Animated.View
                       style={[
                         styles.btn,
-                        !isValid && styles.btnDisabled,
+                        (!isValid || loadingOTP) && styles.btnDisabled,
                         { transform: [{ scale: scaleAnim }] },
                       ]}
                     >
-                      <Text style={styles.btnText}>Continue</Text>
-                      <Ionicons name="arrow-forward" size={20} color="#fff" />
+                      {loadingOTP ? (
+                        <ActivityIndicator color="#fff" />
+                      ) : (
+                        <>
+                          <Text style={styles.btnText}>Continue</Text>
+                          <Ionicons
+                            name="arrow-forward"
+                            size={20}
+                            color="#fff"
+                          />
+                        </>
+                      )}
                     </Animated.View>
                   </TouchableOpacity>
 
@@ -217,10 +277,26 @@ export default function LoginScreen() {
                     ))}
                   </View>
 
-                  <TouchableOpacity activeOpacity={0.9} onPress={handleVerify}>
-                    <View style={styles.btn}>
-                      <Text style={styles.btnText}>Verify & Continue</Text>
-                      <Ionicons name="arrow-forward" size={20} color="#fff" />
+                  <TouchableOpacity
+                    activeOpacity={0.9}
+                    onPress={handleVerify}
+                    disabled={loadingVerify}
+                  >
+                    <View
+                      style={[styles.btn, loadingVerify && styles.btnDisabled]}
+                    >
+                      {loadingVerify ? (
+                        <ActivityIndicator color="#fff" />
+                      ) : (
+                        <>
+                          <Text style={styles.btnText}>Verify & Continue</Text>
+                          <Ionicons
+                            name="arrow-forward"
+                            size={20}
+                            color="#fff"
+                          />
+                        </>
+                      )}
                     </View>
                   </TouchableOpacity>
                 </>
