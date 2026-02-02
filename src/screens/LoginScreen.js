@@ -37,6 +37,7 @@ export default function LoginScreen() {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
 
   const isValid = phone.length === 10;
+  
 
   const pressIn = () => {
     Animated.spring(scaleAnim, {
@@ -123,6 +124,24 @@ export default function LoginScreen() {
     }
   };
 
+  const goBackToPhone = () => {
+    Animated.timing(slideAnim, {
+      toValue: width, // move right
+      duration: 250,
+      useNativeDriver: true,
+    }).start(() => {
+      setStep(1);
+      setOtp(["", "", "", "", "", ""]);
+
+      slideAnim.setValue(-width); // start from left
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 250,
+        useNativeDriver: true,
+      }).start();
+    });
+  };
+
   return (
     <SafeAreaView style={styles.safe}>
       <StatusBar barStyle="light-content" />
@@ -133,7 +152,8 @@ export default function LoginScreen() {
       />
 
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        // keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 80}
         style={{ flex: 1 }}
       >
         <ScrollView
@@ -158,6 +178,7 @@ export default function LoginScreen() {
               </Text>
             </View>
             <Animated.View
+              key={step}
               style={[
                 styles.card,
                 {
@@ -190,7 +211,7 @@ export default function LoginScreen() {
                       placeholder="Enter mobile number"
                       placeholderTextColor="#94A3B8"
                       value={phone}
-                      autoFocus={true}
+                      // autoFocus={true}
                       returnKeyType="done"
                       onChangeText={(v) => {
                         const numeric = v.replace(/[^0-9]/g, "");
@@ -243,6 +264,25 @@ export default function LoginScreen() {
                 </>
               ) : (
                 <>
+                  <TouchableOpacity
+                    style={{ marginBottom: 15 }}
+                    onPress={goBackToPhone}
+                  >
+                    <View
+                      style={{ flexDirection: "row", alignItems: "center" }}
+                    >
+                      <Ionicons name="arrow-back" size={20} color="#0EA5E9" />
+                      <Text
+                        style={{
+                          marginLeft: 6,
+                          color: "#0EA5E9",
+                          fontWeight: "600",
+                        }}
+                      >
+                        Change Number
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
                   <Text style={[styles.cardTitle, { textAlign: "center" }]}>
                     Enter OTP
                   </Text>
@@ -264,13 +304,15 @@ export default function LoginScreen() {
                           const newOtp = [...otp];
                           newOtp[i] = val;
                           setOtp(newOtp);
-
                           if (val && i < 5) {
                             otpRefs.current[i + 1]?.focus();
                           }
-
-                          if (!val && i > 0) {
-                            otpRefs.current[i - 1]?.focus();
+                        }}
+                        onKeyPress={({ nativeEvent }) => {
+                          if (nativeEvent.key === "Backspace") {
+                            if (otp[i] === "" && i > 0) {
+                              otpRefs.current[i - 1]?.focus();
+                            }
                           }
                         }}
                       />
