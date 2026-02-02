@@ -279,7 +279,7 @@ export default function LoginScreen() {
                           fontWeight: "600",
                         }}
                       >
-                        Change Number
+                        Back
                       </Text>
                     </View>
                   </TouchableOpacity>
@@ -366,10 +366,13 @@ const styles = StyleSheet.create({
   },
 
   logoRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 24,
-  },
+  position: "absolute",
+  top: Platform.OS === "ios" ? 10 : 20,
+  left: 20,
+  flexDirection: "row",
+  alignItems: "center",
+  zIndex: 10,
+},
 
   logo: {
     color: "#fff",
