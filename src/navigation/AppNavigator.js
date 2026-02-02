@@ -14,7 +14,7 @@ export default function AppNavigator() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        headerShown: false,
+        // headerShown: false,
 
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
@@ -42,7 +42,7 @@ export default function AppNavigator() {
         tabBarInactiveTintColor: "gray",
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
       <Tab.Screen name="Usage" component={UsageScreen} />
       <Tab.Screen name="Bills" component={BillsScreen} />
       <Tab.Screen name="Support" component={SupportScreen} />
