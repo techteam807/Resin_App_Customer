@@ -7,6 +7,7 @@ import BillsScreen from "../screens/app/BillsScreen";
 import SupportScreen from "../screens/app/SupportScreen";
 import AccountScreen from "../screens/app/AccountScreen";
 import { Ionicons } from "@expo/vector-icons";
+import PlanScreen from "../screens/app/PlanScreen";
 
 const Tab = createBottomTabNavigator();
 

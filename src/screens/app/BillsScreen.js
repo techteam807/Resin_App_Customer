@@ -49,17 +49,7 @@ const BillsScreen = () => {
       : PAYMENT_DATA.filter((i) => i.status === activeTab);
 
   return (
-    <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.topBar}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Ionicons name="chevron-back" size={26} color="#0f172a" />
-          </TouchableOpacity>
-
-          <Text style={styles.pageTitle}>Billing & Invoices</Text>
-
-          <View style={{ width: 26 }} />
-        </View>
 
         <View style={styles.balanceCard}>
           <View style={styles.balanceIcon}>
@@ -164,7 +154,6 @@ const BillsScreen = () => {
           <Text style={styles.supportLink}>Contact Support</Text>
         </Text>
       </ScrollView>
-    </SafeAreaView>
   );
 };
 
@@ -194,6 +183,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 20,
     marginBottom: 20,
+    marginTop:5,
     elevation: 3,
   },
 
