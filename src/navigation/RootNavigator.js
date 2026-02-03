@@ -2,11 +2,15 @@ import React, { useState, useEffect, createContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { View, ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import AuthNavigator from "./AuthNavigator";
 import AppNavigator from "./AppNavigator";
+import PlanScreen from "../screens/app/PlanScreen";
 
 export const AuthContext = createContext();
+
+const Stack = createNativeStackNavigator();
 
 export default function RootNavigator() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -20,16 +24,12 @@ export default function RootNavigator() {
     try {
       const token = await AsyncStorage.getItem("token");
 
-      if (token) {
-        setIsLoggedIn(true); 
-      } else {
-        setIsLoggedIn(false);
-      }
+      setIsLoggedIn(!!token);
     } catch (err) {
       console.log("Token Check Error:", err);
       setIsLoggedIn(false);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -47,7 +47,14 @@ export default function RootNavigator() {
             <ActivityIndicator size="large" color="#007AFF" />
           </View>
         ) : isLoggedIn ? (
-          <AppNavigator />
+          /* ✅ Logged In Stack */
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            {/* Bottom Tabs */}
+            <Stack.Screen name="Tabs" component={AppNavigator} />
+
+            {/* Hidden Screen */}
+            <Stack.Screen name="Plan" component={PlanScreen} />
+          </Stack.Navigator>
         ) : (
           <AuthNavigator />
         )}
