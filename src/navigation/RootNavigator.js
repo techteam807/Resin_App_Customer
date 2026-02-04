@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AuthNavigator from "./AuthNavigator";
 import AppNavigator from "./AppNavigator";
 import PlanScreen from "../screens/app/PlanScreen";
+import ReferralScreen from "../screens/app/ReferralScreen";
 
 export const AuthContext = createContext();
 
@@ -54,6 +55,8 @@ export default function RootNavigator() {
 
             {/* Hidden Screen */}
             <Stack.Screen name="Plan" component={PlanScreen} />
+            <Stack.Screen name="Referral" component={ReferralScreen} />
+
           </Stack.Navigator>
         ) : (
           <AuthNavigator />
