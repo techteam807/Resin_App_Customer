@@ -38,7 +38,7 @@ export default function HomeScreen() {
             <Text
               numberOfLines={2}
               ellipsizeMode="tail"
-              style={{ fontSize: 22, fontWeight: "700" }}
+              style={{ fontSize: 18, fontWeight: "700" }}
             >
               HARIKRUSHNA LABELS PRIVATE LIMITED
             </Text>
@@ -56,7 +56,7 @@ export default function HomeScreen() {
             >
               <Ionicons name="notifications-outline" size={23} color="black" />
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={{
                 backgroundColor: "#def4f9",
                 padding: 7,
@@ -70,7 +70,7 @@ export default function HomeScreen() {
                 size={24}
                 color="#00d0ff"
               />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
 
@@ -92,7 +92,7 @@ export default function HomeScreen() {
             style={{
               position: "absolute",
               right: -75,
-              bottom: -10,
+              bottom: -7,
             }}
           >
             <Path
@@ -107,7 +107,7 @@ export default function HomeScreen() {
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             <Text style={{ color: "#dff4ff", letterSpacing: 1 }}>
-              CURRENT CONSUMPTION
+              CURRENT WATER SCORE
             </Text>
 
             <View
@@ -124,27 +124,24 @@ export default function HomeScreen() {
             </View>
           </View>
 
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "flex-end",
-              marginTop: 10,
-            }}
-          >
-            <Text style={{ fontSize: 40, color: "#fff", fontWeight: "700" }}>
+          <View style={{ alignItems: "center", marginTop: 10 }}>
+            <Text style={{ fontSize: 46, color: "#fff", fontWeight: "800" }}>
               4.2
             </Text>
-            <Text style={{ color: "#ccefff", marginBottom: 6, marginLeft: 4 }}>
-              kL
+
+            <Text style={{ fontSize: 12, color: "#ccefff", marginTop: 4 }}>
+              Milligrams per Liter (mg/L)
             </Text>
           </View>
 
           <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-            <FontAwesome6 name="arrow-trend-down" size={14} color="#ccefff" />
-            <Text style={{ color: "#ccefff" }}>12% less than last month</Text>
+            {/* <FontAwesome6 name="arrow-trend-down" size={14} color="#ccefff" /> */}
+            <Text style={{ color: "#ccefff" }}>
+              {/* 12% less than last month */}
+            </Text>
           </View>
 
-          <View
+          {/* <View
             style={{
               height: 6,
               backgroundColor: "rgba(255,255,255,0.3)",
@@ -160,120 +157,160 @@ export default function HomeScreen() {
                 borderRadius: 10,
               }}
             />
-          </View>
+          </View> */}
 
-          <View
+          {/* <View
             style={{
               flexDirection: "row",
               justifyContent: "space-between",
               marginTop: 10,
             }}
           >
-            <Text style={{ color: "#ccefff" }}>Usage: 4,200L</Text>
-            <Text style={{ color: "#ccefff" }}>Limit: 6,500L</Text>
-          </View>
+            <Text style={{ color: "#ccefff" }}> Usage: 4,200L</Text>
+            <Text style={{ color: "#ccefff" }}> Limit: 6,500L</Text>
+          </View> */}
         </View>
 
         {/* billing & plan */}
-        <View
-          style={{
-            marginTop: 30,
-            flexDirection: "row",
-            justifyContent: "space-between",
-          }}
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Plan")}
+          activeOpacity={0.85}
         >
-          {/* bill */}
-          <TouchableOpacity
-            style={{ width: "49%" }}
-            onPress={() => navigation.navigate("Bills")}
+          <View
+            style={{
+              backgroundColor: "#ffffff",
+              borderRadius: 12,
+              padding: 18,
+              borderWidth: 1,
+              borderColor: "#e5e7eb",
+              // borderLeftWidth: 4, // 👈 highlight
+              // borderLeftColor: "#2563eb", // 👈 subtle brand color
+              marginTop: 30,
+            }}
           >
             <View
               style={{
-                backgroundColor: "#ffffffac",
-                padding: 20,
-                borderRadius: 20,
+                flexDirection: "row",
+                alignItems: "center",
               }}
             >
+              {/* Icon */}
               <View
-                style={{ flexDirection: "row", alignItems: "center", gap: 5 }}
+                style={{
+                  backgroundColor: "#f1f5f9",
+                  padding: 8,
+                  borderRadius: 8,
+                  marginRight: 12,
+                }}
               >
-                <View
-                  style={{
-                    backgroundColor: "#dcfddb",
-                    padding: 8,
-                    borderRadius: 6,
-                  }}
-                >
-                  <Ionicons name="receipt-outline" size={18} color="green" />
-                </View>
-                <Text style={{ color: "gray" }}>BILLING</Text>
+                <Octicons name="verified" size={18} color="#2563eb" />
               </View>
-              <View style={{ paddingVertical: 10 }}>
+
+              {/* Text */}
+              <View style={{ flex: 1 }}>
+                <Text style={{ fontSize: 12, color: "#64748b" }}>
+                  Current Plan
+                </Text>
                 <Text
                   style={{
-                    letterSpacing: 1,
-                    color: "#000",
-                    fontSize: 20,
-                    fontWeight: "700",
-                    paddingLeft: 2,
+                    fontSize: 15,
+                    fontWeight: "600",
+                    color: "#0f172a",
                   }}
                 >
-                  ₹0
+                  Betterwater Yearly
                 </Text>
               </View>
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Octicons name="dot-fill" size={20} color="#12cc01" />
-                <Text style={{ color: "#12cc01" }}>Paid</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
 
-          {/* plan */}
-          <TouchableOpacity
-            style={{
-              backgroundColor: "#ffffffac",
-              padding: 20,
-              borderRadius: 20,
-              width: "49%",
-            }}
-            onPress={() => navigation.navigate("Plan")}
-            activeOpacity={0.8}
-          >
-            <View
-              style={{ flexDirection: "row", alignItems: "center", gap: 5 }}
-            >
+              {/* Status */}
               <View
                 style={{
-                  backgroundColor: "#d6e6fc",
-                  padding: 8,
-                  borderRadius: 6,
+                  backgroundColor: "#ecfdf5",
+                  borderColor: "#16a34a",
+                  borderWidth: 1,
+                  paddingHorizontal: 10,
+                  paddingVertical: 3,
+                  borderRadius: 5,
                 }}
               >
-                <Octicons name="verified" size={20} color="#000dff" />
+                <Text
+                  style={{
+                    fontSize: 11,
+                    color: "#16a34a",
+                    fontWeight: "700",
+                    letterSpacing: 0.4,
+                  }}
+                >
+                  ACTIVE
+                </Text>
               </View>
 
-              <Text style={{ color: "gray" }}>PLAN</Text>
+              {/* Navigation indicator */}
+              {/* <Ionicons name="chevron-forward" size={18} color="#94a3b8" /> */}
             </View>
+          </View>
+        </TouchableOpacity>
 
-            <View style={{ paddingVertical: 10 }}>
-              <Text
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Bills")}
+          style={{ marginTop: 16 }}
+        >
+          <View
+            style={{
+              backgroundColor: "#ffffff",
+              borderRadius: 12,
+              padding: 18,
+              borderWidth: 1,
+              borderColor: "#e5e7eb",
+            }}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <View
                 style={{
-                  letterSpacing: 1,
-                  color: "#000",
-                  fontSize: 12,
-                  fontWeight: "700",
-                  paddingLeft: 2,
+                  backgroundColor: "#f1f5f9",
+                  padding: 8,
+                  borderRadius: 8,
+                  marginRight: 12,
                 }}
               >
-                Betterwater Yearly
-              </Text>
-            </View>
+                <Ionicons name="receipt-outline" size={18} color="#334155" />
+              </View>
 
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Text style={{ color: "gray" }}>ACTIVE</Text>
+              <View style={{ flex: 1 }}>
+                <Text style={{ fontSize: 12, color: "#64748b" }}>
+                  Billing Status
+                </Text>
+                <Text
+                  style={{ fontSize: 15, fontWeight: "600", color: "#0f172a" }}
+                >
+                  ₹0.00
+                </Text>
+              </View>
+
+             <View
+                style={{
+                  backgroundColor: "#ecfdf5",
+                  borderColor: "#16a34a",
+                  borderWidth: 1,
+                  paddingHorizontal: 10,
+                  paddingVertical: 3,
+                  borderRadius: 5,
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 11,
+                    color: "#16a34a",
+                    fontWeight: "700",
+                    letterSpacing: 0.4,
+                  }}
+                >
+                  PAID
+                </Text>
+              </View>
             </View>
-          </TouchableOpacity>
-        </View>
+          </View>
+        </TouchableOpacity>
 
         {/* action */}
         <View style={{ paddingTop: 25 }}>
@@ -434,7 +471,7 @@ export default function HomeScreen() {
                 Water Saving Tip
               </Text>
               <Text style={{ color: "#262ec0", fontWeight: "400" }}>
-                Fixing a leaky faucet can save up to 3kL of water a month
+                Fixing a leaky faucet can save up to 3mg/L of water a month
               </Text>
             </View>
           </TouchableOpacity>

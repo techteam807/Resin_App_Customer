@@ -55,8 +55,13 @@ const UsageScreen = () => {
         {/* Header */}
         <View style={styles.usageHeader}>
           <View>
-            <Text style={styles.usageTitle}>Water Usage</Text>
-            <Text style={styles.usageSubTitle}>August 2023</Text>
+            <Text style={styles.usageTitle}>Water Score</Text>
+            <Text style={styles.usageSubTitle}>
+              {new Date().toLocaleDateString("en-IN", {
+                month: "long",
+                year: "numeric",
+              })}
+            </Text>
           </View>
 
           <View style={styles.iconBox}>
@@ -66,21 +71,21 @@ const UsageScreen = () => {
 
         {/* Main Value */}
         <Text style={styles.usageMainValue}>4.2</Text>
-        <Text style={styles.usageUnit}>Kiloliters (kL)</Text>
+        <Text style={styles.usageUnit}>Milligrams per Liter (mg/L)</Text>
 
         {/* Progress Bar */}
-        <View style={styles.progressBarBg}>
+        {/* <View style={styles.progressBarBg}>
           <View style={styles.progressBarFill} />
-        </View>
+        </View> */}
 
         {/* Footer */}
         <View style={styles.usageFooter}>
           <View style={styles.footerItem}>
-            <Ionicons name="trending-down" size={14} color="#16a34a" />
-            <Text style={styles.footerText}>12% Less</Text>
+            {/* <Ionicons name="trending-down" size={14} color="#16a34a" /> */}
+            <Text style={styles.footerText}>{/* 12% Less */}</Text>
           </View>
 
-          <Text style={styles.compareText}>vs July</Text>
+          <Text style={styles.compareText}>{/* vs July */}</Text>
         </View>
       </View>
 
@@ -107,7 +112,7 @@ const UsageScreen = () => {
 
             return (
               <View key={index} style={styles.barItem}>
-                <Text style={styles.barValue}>{item.value / 10}kL</Text>
+                <Text style={styles.barValue}>{item.value / 10}(mg/L)</Text>
 
                 <View style={styles.barBg}>
                   <View style={[styles.barFill, { height: barHeight }]} />
@@ -121,7 +126,7 @@ const UsageScreen = () => {
       </View>
 
       {/* STATS */}
-      <View style={styles.statsRow}>
+      {/* <View style={styles.statsRow}>
         <View style={styles.statCard}>
           <Text style={styles.statLabel}>Daily Average</Text>
           <Text style={styles.statValue}>140 Ltrs</Text>
@@ -131,7 +136,7 @@ const UsageScreen = () => {
           <Text style={styles.statLabel}>Peak Usage</Text>
           <Text style={styles.statValue}>Aug 14</Text>
         </View>
-      </View>
+      </View> */}
 
       {/* SMART TIP */}
       <View style={styles.tipCard}>
@@ -143,7 +148,7 @@ const UsageScreen = () => {
           <Text style={styles.tipTitle}>Smart Saving Tip</Text>
 
           <Text style={styles.tipText}>
-            Fixing a leaky faucet can save up to 3kL of water a month. Your
+            Fixing a leaky faucet can save up to 3(mg/L) of water a month. Your
             usage peaked on weekends.
           </Text>
         </View>
@@ -156,7 +161,7 @@ const UsageScreen = () => {
         <View style={styles.detailRow}>
           <Ionicons name="home-outline" size={18} color="#0284c7" />
           <Text style={styles.detailText}>Household Avg.</Text>
-          <Text style={styles.detailValue}>3.8 kL</Text>
+          <Text style={styles.detailValue}>3.8 (mg/L)</Text>
         </View>
 
         <View style={styles.detailRow}>

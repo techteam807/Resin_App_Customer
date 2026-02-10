@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "Resin_App_Customer",
-    "slug": "Resin_App_Customer",
+    "n+me": "BetterWater_Customer",
+    "slug": "betterwater-customer",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/BW_Display_Pictures.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -17,13 +17,19 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/batter_water.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.techteam807.betterwatercustomer"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "6277c98d-d585-4ffc-b1c3-50d869e14294"
+      }
     }
   }
 }
